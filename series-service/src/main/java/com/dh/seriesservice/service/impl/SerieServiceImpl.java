@@ -21,7 +21,7 @@ public class SerieServiceImpl implements SerieService {
     }
 
     @Override
-    public List<Serie> findAllByGenre(String genre) {
+    public List<Serie> findByGenre(String genre) {
         return serieRepository.findByGenre(genre);
     }
 
@@ -36,7 +36,7 @@ public class SerieServiceImpl implements SerieService {
     }
 
     @Override
-    public Serie createSerie(Serie serie) {
+    public Serie save(Serie serie) {
         return serieRepository.save(serie);
     }
 }

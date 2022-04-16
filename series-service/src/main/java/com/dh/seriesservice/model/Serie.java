@@ -13,7 +13,7 @@ import java.util.List;
 
 @NoArgsConstructor
 @Getter @Setter
-@Document( collection = "series_db")
+@Document( collection = "series")
 public class Serie {
 
     @Id

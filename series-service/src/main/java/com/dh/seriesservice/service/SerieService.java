@@ -9,7 +9,7 @@ public interface SerieService {
     List<Serie> findAll();
     Serie findByName(String name);
     Serie findById(String id);
-    List<Serie> findAllByGenre(String genre);
-    Serie createSerie(Serie movie);
+    List<Serie> findByGenre(String genre);
+    Serie save(Serie movie);
 
 }
