@@ -21,14 +21,13 @@ public class GatewayServiceApplication {
         SpringApplication.run(GatewayServiceApplication.class, args);
     }
 
+    /*
+     SOLO PARA PROPOSITOS DE PRUEBA Y EVALUAR EL PRINICPAL
+     */
     @GetMapping("/user")
     public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
         return Collections.singletonMap("name", principal.getAttribute("name"));
     }
 
-    @GetMapping
-    public String home() {
-        return "Todo OK";
-    }
 
 }

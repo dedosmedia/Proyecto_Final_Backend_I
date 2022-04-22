@@ -5,3 +5,12 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/netflix
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://accounts.google.com
+
+logging:
+  level:
+    org.springframework.security: DEBUG

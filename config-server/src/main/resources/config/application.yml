@@ -8,6 +8,10 @@ management:
     health:
       show-details: always
 
+  health:
+    circuitbreakers:
+      enabled: true
+
 eureka:
   client:
     fetch-registry: true
@@ -16,3 +20,17 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
+
+# RabbitMQ para los servicios que lo requieran
+spring:
+  rabbtimq:
+    host: localhost
+    username: guest
+    password: guest
+
+# Configura los nomrbes de las colas que vamos a tener
+queue:
+  movie:
+    name: MovieQueue
+  serie:
+    naem: SerieQueue

@@ -1,6 +1,18 @@
 server:
   port: 8082
 
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://accounts.google.com
+
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:/sql/init.sql
+
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/movie_db

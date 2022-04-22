@@ -1,53 +1,5 @@
-server:
-  port: 8080
-
 spring:
   application:
     name: gateway-service
-  cloud:
-    gateway:
-      routes:
-        - id: movie-service-route
-          uri: lb://movie-service
-          predicates:
-            - Path=/movies/**
-        - id: serie-service-rout
-          uri: lb://serie-service
-          predicates:
-            - Path=/series/**
-      default-filters:
-        - OIDCTokenRelay
-
   config:
     import: optional:configserver:http://localhost:8888
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 1071400041925-gk81i6f7cn0ed0ar2vjq9ub2alv5jukl.apps.googleusercontent.com
-            client-secret: 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
-            scope: openid,profile,email
-            redirect-uri: http://localhost:8080/login/oauth2/code/google
-        provider:
-          google:
-            issuer-uri: https://accounts.google.com
-
-logging:
-  level:
-    root: INFO
-    org:
-      springframework:
-        cloud:
-          gateway: TRACE
-
-
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka/
-
-
-

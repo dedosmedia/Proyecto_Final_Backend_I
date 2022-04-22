@@ -8,6 +8,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,14 +32,36 @@ public class SerieController {
     private SerieService serieService;
 
     @GetMapping
-    public ResponseEntity<List<Serie>> findAll(HttpServletRequest request){
+    public ResponseEntity<List<Serie>> findAll(HttpServletRequest request, @AuthenticationPrincipal Jwt principal){
 
-        log.info("Authorization bearer {}", request.getHeader(HttpHeaders.AUTHORIZATION));
+        // Desde el bearer token.
+        log.info("\n===================\n");
+        log.info("Authorization header: {}", request.getHeader(HttpHeaders.AUTHORIZATION));
+
+        // Desde el security context.
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        log.info("\n===================\n");
+        log.info("Authentication: {}", authentication);
+        log.info("Principal: {}", authentication.getPrincipal());
+        log.info("Credentials: {}", authentication.getCredentials());
+        log.info("Name: {}", authentication.getName());
+        log.info("Details: {}", authentication.getDetails());
+        log.info("Authorities: {}", authentication.getAuthorities());
+
+        // Desde el JWT directamente.
+        log.info("\n===================\n");
+        log.info("Claims: {}", principal.getClaims());
+        log.info("Headers: {}", principal.getHeaders());
+        log.info("Audiences: {}", principal.getAudience());
+        log.info("Issuer: {}", principal.getIssuer());
+        log.info("Expiry date: {}", principal.getExpiresAt());
         return  ResponseEntity.ok().body(serieService.findAll());
     }
 
     @GetMapping("/{genre}")
-    public ResponseEntity<List<Serie>> findById(@PathVariable String genre){
+    public ResponseEntity<List<Serie>> findByGenre(@PathVariable String genre){
+
         return  ResponseEntity.ok().body(serieService.findByGenre(genre));
     }
 

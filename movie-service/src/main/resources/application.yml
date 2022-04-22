@@ -1,29 +1,6 @@
-server:
-  port: 8082
-
 spring:
   application:
     name: movie-service
 
   config:
     import: optional:configserver:http://localhost:8888
-
-  sql:
-    init:
-      mode: always
-      data-locations: classpath:/sql/init.sql
-
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/movie_db
-    username: root
-    password: root
-
-  jpa:
-    defer-datasource-initialization: true
-    show-sql: true
-
-
-    hibernate:
-      ddl-auto: create-drop
-
