@@ -13,21 +13,9 @@ import java.util.Map;
 
 @SpringBootApplication
 @EnableDiscoveryClient
-@RestController
-
 public class GatewayServiceApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(GatewayServiceApplication.class, args);
     }
-
-    /*
-     SOLO PARA PROPOSITOS DE PRUEBA Y EVALUAR EL PRINICPAL
-     */
-    @GetMapping("/user")
-    public Map<String, Object> user(@AuthenticationPrincipal OAuth2User principal) {
-        return Collections.singletonMap("name", principal.getAttribute("name"));
-    }
-
-
 }

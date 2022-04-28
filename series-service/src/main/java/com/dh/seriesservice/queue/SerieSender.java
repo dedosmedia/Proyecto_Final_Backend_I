@@ -1,6 +1,6 @@
-package com.dh.catalogservice.queue;
+package com.dh.seriesservice.queue;
 
-import com.dh.catalogservice.model.Movie;
+import com.dh.seriesservice.model.Serie;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.Queue;
@@ -10,15 +10,15 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class MovieSender {
+public class SerieSender {
 
 
     private final RabbitTemplate rabbitTemplate;
     // TODO: como sabes cual de todos los Queue inyectar aquí?
-    private final Queue movieQueue;
+    private final Queue serieQueue;
 
-    public void send(Movie movie){
-        this.rabbitTemplate.convertAndSend( this.movieQueue.getName(), movie);
+    public void send(Serie serie){
+        this.rabbitTemplate.convertAndSend( this.serieQueue.getName(), serie);
     }
 
 }

@@ -3,4 +3,4 @@ spring:
     name: service-registry
 
   config:
-    import: optional:configserver:http://localhost:8888
+    import: configserver:http://config-service:8888

@@ -3,6 +3,29 @@ spring:
     name: catalog-service
 
   config:
-    import: optional:configserver:http://localhost:8888
+    import: optional:configserver:http://config-service:8888
 
 
+---
+
+server:
+  port: 8081
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/catalog_database
+
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+
+queue:
+  movie:
+    name: MovieQueue
+  serie:
+    name: SerieQueue

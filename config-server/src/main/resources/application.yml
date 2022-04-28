@@ -2,16 +2,12 @@ server:
   port: 8888
 
 spring:
-  profiles:
-    active: native
+  zipkin:
+    base-url: http://zipkin:9411/
   application:
     name: config-server
   cloud:
     config:
       server:
-        native:
-          search-locations: classpath:/config
-
-
-
-
+        git:
+          uri: https://github.com/dedosmedia/config_server

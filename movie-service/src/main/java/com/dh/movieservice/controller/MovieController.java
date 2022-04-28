@@ -2,6 +2,7 @@ package com.dh.movieservice.controller;
 
 
 import com.dh.movieservice.model.Movie;
+import com.dh.movieservice.queue.MovieSender;
 import com.dh.movieservice.service.MovieService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +27,7 @@ public class MovieController {
 
     private MovieService movieService;
 
+    private MovieSender movieSender;
 
     @GetMapping
     public ResponseEntity<List<Movie>> findAll(HttpServletRequest request, @AuthenticationPrincipal Jwt principal){
@@ -67,9 +69,12 @@ public class MovieController {
     }
 
     @PostMapping
-    public ResponseEntity<Movie> findByName(@RequestBody Movie movie){
-        System.out.println(movie);
-        return  ResponseEntity.ok().body(movieService.createMovie(movie));
+    public ResponseEntity<Movie> saveMovie(@RequestBody Movie movie){
+
+        Movie movieSaved = movieService.createMovie(movie);
+        movieSender.send(movieSaved);
+        log.info("Movie Saved: "+movieSaved);
+        return  ResponseEntity.ok().body(movieSaved);
     }
 
 }

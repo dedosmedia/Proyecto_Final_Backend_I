@@ -1,5 +1,6 @@
 package com.dh.gatewayservice.filter;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -7,6 +8,7 @@ import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.server.ServerWebExchange;
 
+@Slf4j
 public class OIDCTokenRelay extends AbstractGatewayFilterFactory<OIDCTokenRelay.OIDCTokenRelayConfig> {
     public OIDCTokenRelay() {
         super(OIDCTokenRelayConfig.class);
@@ -28,6 +30,7 @@ public class OIDCTokenRelay extends AbstractGatewayFilterFactory<OIDCTokenRelay.
     }
 
     private ServerWebExchange withOidcIdToken(ServerWebExchange exchange, OidcIdToken accessToken) {
+        log.info("Bearer: {}", accessToken.getTokenValue());
         return exchange.mutate()
                 .request(request -> request.headers(headers -> headers.setBearerAuth(accessToken.getTokenValue())))
                 .build();

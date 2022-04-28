@@ -14,7 +14,7 @@ public interface CatalogRepository extends MongoRepository<Catalog, String> {
 
 
     List<Catalog> findCatalogsByGenre(String genre);
-
+    List<Catalog> findByGenre(String genre);
 
 
 }

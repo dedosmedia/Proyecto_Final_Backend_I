@@ -17,20 +17,23 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://registry-service:8761/eureka/
   instance:
     prefer-ip-address: true
 
 # RabbitMQ para los servicios que lo requieran
 spring:
-  rabbtimq:
-    host: localhost
+  rabbitmq:
+    host: rabbitmq
     username: guest
     password: guest
+
+  zipkin:
+    base-url: http://zipkin:9411/
 
 # Configura los nomrbes de las colas que vamos a tener
 queue:
   movie:
     name: MovieQueue
   serie:
-    naem: SerieQueue
+    name: SerieQueue

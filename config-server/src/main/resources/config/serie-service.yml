@@ -4,7 +4,13 @@ server:
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/netflix
+      # uri: mongodb://series-db:27017/netflix
+      host: series-db
+      username: series
+      password: password
+      port: 27017
+      database: series_database
+
   security:
     oauth2:
       resourceserver:

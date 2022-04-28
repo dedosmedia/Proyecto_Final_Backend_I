@@ -5,36 +5,39 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: movie-service-route
-          uri: lb://movie-service
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: movieService
-                fallbackUri: forward:/fallback/movie
-          predicates:
-            - Path=/movies/**
-        - id: serie-service-route
-          uri: lb://serie-service
-          filters:
-            - name: CircuitBreaker
-              args:
-                name: serieService
-                fallbackUri: forward:/fallback/serie
-          predicates:
-            - Path=/series/**
+#         Lo descomento solo para pruebas directas sin pasar por el gateway
+#        - id: movie-service-route
+#          uri: lb://movie-service
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: movieService
+#                fallbackUri: forward:/fallback/movie
+#          predicates:
+#            - Path=/movies/**
+#        - id: serie-service-route
+#          uri: lb://serie-service
+#          filters:
+#            - name: CircuitBreaker
+#              args:
+#                name: serieService
+#                fallbackUri: forward:/fallback/serie
+#          predicates:
+#            - Path=/series/**
         - id: catalog-service-route
           uri: lb://catalog-service
           filters:
-            - name: CircuitBreaker
-              args:
-                name: catalogService
-                fallbackUri: forward:/fallback/catalog
-                statusCodes:
-                  - 500    # Contar estos código como fallidos, si no si el catalog responde con 500 lo contará como exitoso.
-                           # Sin embargo persiste el problema, que en CLOSED también va al fallbackUri
+            - RewritePath=/series, /catalogs/series
+            - RewritePath=/movies, /catalogs/movies
+#            - name: CircuitBreaker
+#              args:
+#                name: catalogService
+#                fallbackUri: forward:/fallback/catalog
+#                statusCodes:
+#                  - 500    # Contar estos código como fallidos, sino si el catalog responde con 500 lo contará como exitoso.
+#                           # Sin embargo persiste el problema, que en CLOSED también va al fallbackUri
           predicates:
-            - Path=/catalogs/**
+            - Path=/**
       default-filters:
         - OIDCTokenRelay
 
@@ -43,8 +46,8 @@ spring:
       client:
         registration:
           google:
-            client-id: 1071400041925-gk81i6f7cn0ed0ar2vjq9ub2alv5jukl.apps.googleusercontent.com
-            client-secret: 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
+            client-id: ${GOOGLE_CLIENT_ID}
+            client-secret: ${GOOGLE_CLIENT_SECRET}
             scope: openid,profile,email
             redirect-uri: http://localhost:8080/login/oauth2/code/google
         provider:

@@ -1,6 +1,10 @@
 server:
   port: 8082
 
+logging:
+  level:
+    root: WARN
+
 spring:
   security:
     oauth2:
@@ -15,9 +19,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/movie_db
-    username: root
-    password: root
+    url: jdbc:mysql://movies-db:3306/movies_database
+    username: superuser
+    password: password
 
   jpa:
     defer-datasource-initialization: true

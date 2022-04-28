@@ -1,20 +1,16 @@
 package com.dh.seriesservice.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
+@Data
 public class Season {
 
     private String id;
     private Number seasonNumber;
     private List<Chapter> chapters;
-
-
 }

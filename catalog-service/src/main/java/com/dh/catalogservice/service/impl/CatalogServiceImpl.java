@@ -34,4 +34,11 @@ public class CatalogServiceImpl implements CatalogService {
     public List<Catalog> findCatalogsByGenre(String genre) {
         return catalogRepository.findCatalogsByGenre(genre);
     }
+
+    @Override
+    public List<Catalog> findByGenre(String genre) {
+        return catalogRepository.findByGenre(genre);
+    }
+
+
 }

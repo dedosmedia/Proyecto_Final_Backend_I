@@ -1,0 +1,427 @@
+{
+	"info": {
+		"_postman_id": "f8feff76-4bd7-4be3-b650-b5f1733e973c",
+		"name": "Proyecto Final Especialización",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "movie-service",
+			"item": [
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{MOVIE_SERVICE_PORT}}/movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{MOVIE_SERVICE_PORT}}",
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByName",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{MOVIE_SERVICE_PORT}}/movies/name/Sonic%202",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{MOVIE_SERVICE_PORT}}",
+							"path": [
+								"movies",
+								"name",
+								"Sonic%202"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{MOVIE_SERVICE_PORT}}/movies/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{MOVIE_SERVICE_PORT}}",
+							"path": [
+								"movies",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createMovie",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Prueba\",\r\n    \"genre\": \"Acción\",\r\n    \"urlStream\": \"https://netflix.com/prueba\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{MOVIE_SERVICE_PORT}}/movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{MOVIE_SERVICE_PORT}}",
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Gateway",
+			"item": [
+				{
+					"name": "Series - findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{GATEWAY_PORT}}/series",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{GATEWAY_PORT}}",
+							"path": [
+								"series"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Movies - findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{GATEWAY_PORT}}/movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{GATEWAY_PORT}}",
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Catalogs- findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{GATEWAY_PORT}}/catalogs",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{GATEWAY_PORT}}",
+							"path": [
+								"catalogs"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Catalogs- findByGenre",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{GATEWAY_PORT}}/catalogs/findByGenre/Comedia",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{GATEWAY_PORT}}",
+							"path": [
+								"catalogs",
+								"findByGenre",
+								"Comedia"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createMovie",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Prueba\",\r\n    \"genre\": \"Acción\",\r\n    \"urlStream\": \"https://netflix.com/prueba\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{GATEWAY_PORT}}/movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{GATEWAY_PORT}}",
+							"path": [
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createSeries",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Serie 1\",\r\n    \"genre\": \"Acción\",\r\n    \"seasons\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"seasonNumber\":1,\r\n            \"chapters\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"Capitulo 1\",\r\n                    \"number\": 1,\r\n                    \"urlStream\": \"https://netflix.com/serie1/cap1\"\r\n                },\r\n                 {\r\n                    \"id\": \"2\",\r\n                    \"name\": \"Capitulo 2\",\r\n                    \"number\": 2,\r\n                    \"urlStream\": \"https://netflix.com/serie1/cap2\"\r\n                }\r\n            ]\r\n\r\n        },\r\n        {\r\n            \"id\": \"2\",\r\n            \"seasonNumber\":1,\r\n            \"chapters\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"Capitulo 1\",\r\n                    \"number\": 1,\r\n                    \"urlStream\": \"https://netflix.com/serie2/cap1\"\r\n                },\r\n                 {\r\n                    \"id\": \"2\",\r\n                    \"name\": \"Capitulo 2\",\r\n                    \"number\": 2,\r\n                    \"urlStream\": \"https://netflix.com/serie2/cap2\"\r\n                }\r\n            ]\r\n\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{GATEWAY_PORT}}/series",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{GATEWAY_PORT}}",
+							"path": [
+								"series"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "serie-service",
+			"item": [
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{SERIE_SERVICE_PORT}}/series",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{SERIE_SERVICE_PORT}}",
+							"path": [
+								"series"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createSerie",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Serie 2\",\r\n    \"genre\": \"Acción\",\r\n    \"seasons\": [\r\n        {\r\n            \"id\": \"1\",\r\n            \"seasonNumber\":3,\r\n            \"chapters\": [\r\n                {\r\n                    \"id\": \"1\",\r\n                    \"name\": \"Capitulo 1\",\r\n                    \"number\": 1,\r\n                    \"urlStream\": \"https://netflix.com/serie2\"\r\n                }\r\n            ]\r\n\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{SERIE_SERVICE_PORT}}/series",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{SERIE_SERVICE_PORT}}",
+							"path": [
+								"series"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "catalog-service",
+			"item": [
+				{
+					"name": "createMovie",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Prueba 3\",\r\n    \"genre\": \"Drama\",\r\n    \"urlStream\": \"https://netflix.com/prueba_3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{CATALOG_SERVICE_PORT}}/catalogs/movies",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{CATALOG_SERVICE_PORT}}",
+							"path": [
+								"catalogs",
+								"movies"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "createSerie",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"id\": \"18\",\r\n\t\"genre\": \"Acción\",\r\n\t\"series\": [{\r\n\t\t\"id\": \"1\",\r\n\t\t\"name\": \"Serie A\",\r\n\t\t\"genre\": \"Acción\",\r\n\t\t\"seasons\": [\r\n            {\r\n                \"id\": \"10\",\r\n                \"seasonNumber\": 15,\r\n                \"chapters\": [\r\n                    {\r\n                        \"id\": \"1\",\r\n                        \"name\": \"Capitulo 1\",\r\n                        \"number\": 1,\r\n                        \"urlStream\": \"https://netflix.com/serie2\"\r\n\t\t\t        }\r\n                ]\r\n\t\t    }\r\n        ]\r\n\r\n\t}]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:{{CATALOG_SERVICE_PORT}}/catalogs/series",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{CATALOG_SERVICE_PORT}}",
+							"path": [
+								"catalogs",
+								"series"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAll",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:{{CATALOG_SERVICE_PORT}}/catalogs/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "{{CATALOG_SERVICE_PORT}}",
+							"path": [
+								"catalogs",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg2MTY0OWU0NTAzMTUzODNmNmI5ZDUxMGI3Y2Q0ZTkyMjZjM2NkODgiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiIxMDcxNDAwMDQxOTI1LWdrODFpNmY3Y24wZWQwYXIydmpxOXViMmFsdjVqdWtsLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiYXVkIjoiMTA3MTQwMDA0MTkyNS1nazgxaTZmN2NuMGVkMGFyMnZqcTl1YjJhbHY1anVrbC5hcHBzLmdvb2dsZXVzZXJjb250ZW50LmNvbSIsInN1YiI6IjExMDYzNjk2MzQ2NTQxMjQxNjA4MSIsImhkIjoiZGVkb3NtZWRpYS5jb20iLCJlbWFpbCI6ImdlcmVuY2lhQGRlZG9zbWVkaWEuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF0X2hhc2giOiJhMERkMW5tUEFUMTl4ZEhDX2hvZEtBIiwibm9uY2UiOiJ0Y1IxZ2xqTHhtWkRIRERmbnJlZkpVTUI4Q1FlSVhfY1hpZUh6c2Z6bjc4IiwibmFtZSI6IkRpZWdvIETDrWF6IiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FBVFhBSno1VzlNRzBQYVdaMG0tOE9PQXNUZ3B2X0ZsdnJvdTZ4bHh0d1hnPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6IkRpZWdvIiwiZmFtaWx5X25hbWUiOiJEw61heiIsImxvY2FsZSI6ImVzIiwiaWF0IjoxNjUxMDcxODk5LCJleHAiOjE2NTEwNzU0OTl9.RLSx9xS0dg5oE2Qg-CxL6sQGl5EylTPCIMns07pJ7VNhYEuyvrA3hLBZbBvnIWuxvumuuUC1K21BSPXje9RYm4VKxD1H7UTG3acssfaUbTxFrc9m9cbr0kZos5kqF39_NDoW3zc6Rn0HFNPV1ILE7cT-If6b2TKx8vMgAEmMgjKSYBozEnkCRkqRYQL5NWfjM1Ip49qj0nt-RJnkkW2yWuJkQ0EsgVJB8Lxi26sK7Vcc3YobYEQxF1m9IkA4VnZ1Bum_-l01HvTvcDDsMr3rKMoR_5-bwTr-xsXNc5w4vGuqjT4Ss9KYpeyYqyCRfaQMXqmC2cAVZH1SpoQOWfsWjQ",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "MOVIE_SERVICE_PORT",
+			"value": "8082"
+		},
+		{
+			"key": "SERIE_SERVICE_PORT",
+			"value": "8083",
+			"type": "string"
+		},
+		{
+			"key": "CATALOG_SERVICE_PORT",
+			"value": "8081",
+			"type": "string"
+		},
+		{
+			"key": "GATEWAY_PORT",
+			"value": "8080",
+			"type": "string"
+		}
+	]
+}

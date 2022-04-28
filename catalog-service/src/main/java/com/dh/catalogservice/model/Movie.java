@@ -1,13 +1,11 @@
 package com.dh.catalogservice.model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Getter
 @Setter
 public class Movie {

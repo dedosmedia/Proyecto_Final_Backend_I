@@ -1,12 +1,12 @@
 package com.dh.catalogservice.service;
 
+import com.dh.catalogservice.model.Movie;
 import com.dh.catalogservice.model.Serie;
-import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-public interface SerieService {
+public interface MovieService {
 
     List<Serie>  findByGenre(String genre);
-    Serie saveSerie(Serie serie);
+    Movie saveMovie(Movie movie);
 }

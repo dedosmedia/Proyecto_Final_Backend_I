@@ -13,6 +13,7 @@ public class SecurityConfiguration {
     @Bean
     SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http, ReactiveClientRegistrationRepository client) throws Exception {
         http.oauth2Login();
+        http.csrf().disable();
         http.logout(logoutSpec -> logoutSpec.logoutSuccessHandler(
                 new OidcClientInitiatedServerLogoutSuccessHandler(client)
         ));

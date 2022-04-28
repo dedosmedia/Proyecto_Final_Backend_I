@@ -1,0 +1,160 @@
+version: '3.9'
+services:
+  series-db:
+    image: bitnami/mongodb:latest
+    container_name: dh-series-mongodb
+    restart: always
+    ports:
+      - '27017:27017'
+    environment:
+      MONGODB_ROOT_PASWWORD: ${MONGODB_ROOT_PASSWORD:-}
+      MONGODB_PORT_NUMBER: '27017'
+    volumes:
+      - ./db-init/initialize-series-database.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - series-db:/bitnami/mongodb
+
+  catalog-db:
+    image: bitnami/mongodb:latest
+    container_name: dh-catalog-mongodb
+    restart: always
+    ports:
+      - '27018:27018'
+    environment:
+      MONGODB_ROOT_PASWWORD: ${MONGODB_ROOT_PASSWORD:-}
+      MONGODB_PORT_NUMBER: '27018'
+    volumes:
+      - ./db-init/initialize-catalog-database.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
+      - catalog-db:/bitnami/mongodb
+
+  movies-db:
+    image: bitnami/mysql:latest
+    container_name: dh-movies-db
+    restart: always
+    environment:
+      TZ: 'UTC'
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-}
+      MYSQL_DATABASE: movies_database
+    volumes:
+      - ./db-init/initialize-movies-database.sql:/docker-entrypoint-initdb.d/init.sql:ro
+      - movies-db:/bitnami/mysql/data
+    ports:
+      - '3306:3306'
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: dh-rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    volumes:
+      - rabbitmq:/var/lib/rabbitmq
+
+  zipkin:
+    image: openzipkin/zipkin:2
+    container_name: dh-zipkin
+    ports:
+      - '9411:9411'
+    depends_on:
+      rabbitmq:
+        condition: service_started
+
+  config-service:
+    image: dh/config-service:latest
+    build: ../config-server
+    container_name: dh-config-service
+    ports:
+      - '8888:8888'
+    depends_on:
+      - zipkin
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+      interval: 10s
+      timeout: 3s
+      retries: 6
+
+  registry-service:
+    image: dh/registry-service:latest
+    build: ../service-registry
+    container_name: dh-registry-service
+    ports:
+      - '8761:8761'
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      interval: 30s
+      timeout: 3s
+      retries: 6
+    depends_on:
+      config-service:
+        condition: service_healthy
+
+  gateway-service:
+    image: dh/gateway-service:latest
+    build: ../gateway-service
+    container_name: dh-gateway-service
+    ports:
+      - '8080:8080'
+    environment:
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET}
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/actuator/health" ]
+      interval: 30s
+      timeout: 3s
+      retries: 6
+    depends_on:
+      config-service:
+        condition: service_healthy
+      registry-service:
+        condition: service_healthy
+
+  movie-service:
+    image: dh/movie-service:latest
+    build: ../movie-service
+    container_name: dh-movie-service
+    ports:
+      - '8082:8082'
+    depends_on:
+      movies-db:
+        condition: service_started
+      config-service:
+        condition: service_healthy
+      registry-service:
+        condition: service_healthy
+
+  series-service:
+    image: dh/series-service:latest
+    build: ../series-service
+    container_name: dh-series-service
+    ports:
+      - '8083:8083'
+    depends_on:
+      series-db:
+        condition: service_started
+      config-service:
+        condition: service_healthy
+      registry-service:
+        condition: service_healthy
+
+  catalog-service:
+    image: dh/catalog-service:latest
+    build: ../catalog-service
+    container_name: dh-catalog-service
+    ports:
+      - '8081:8081'
+    depends_on:
+      catalog-db:
+        condition: service_started
+      config-service:
+        condition: service_healthy
+      registry-service:
+        condition: service_healthy
+
+volumes:
+  movies-db:
+    name: dh-movies-db-volume
+  series-db:
+    name: dh-series-db-volume
+  catalog-db:
+    name: dh-catalog-db-volume
+  rabbitmq:
+    name: dh-rabbitmq-volume
