@@ -9,6 +9,12 @@ services:
     environment:
       MONGODB_ROOT_PASWWORD: ${MONGODB_ROOT_PASSWORD:-}
       MONGODB_PORT_NUMBER: '27017'
+    healthcheck:
+      test: [ "CMD", "mongo", "--quiet", "127.0.0.1:27017/test", "--eval", "quit(db.runCommand({ ping: 1 }).ok ? 0 : 1)" ]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
     volumes:
       - ./db-init/initialize-series-database.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - series-db:/bitnami/mongodb
@@ -22,6 +28,12 @@ services:
     environment:
       MONGODB_ROOT_PASWWORD: ${MONGODB_ROOT_PASSWORD:-}
       MONGODB_PORT_NUMBER: '27018'
+    healthcheck:
+      test: ["CMD", "mongo", "--quiet", "127.0.0.1:27018/test", "--eval", "quit(db.runCommand({ ping: 1 }).ok ? 0 : 1)"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 10s
     volumes:
       - ./db-init/initialize-catalog-database.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
       - catalog-db:/bitnami/mongodb
@@ -30,6 +42,10 @@ services:
     image: bitnami/mysql:latest
     container_name: dh-movies-db
     restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 1s
+      retries: 120
     environment:
       TZ: 'UTC'
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-}
@@ -46,6 +62,8 @@ services:
     ports:
       - '5672:5672'
       - '15672:15672'
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
     volumes:
       - rabbitmq:/var/lib/rabbitmq
 
@@ -56,7 +74,7 @@ services:
       - '9411:9411'
     depends_on:
       rabbitmq:
-        condition: service_started
+        condition: service_healthy
 
   config-service:
     image: dh/config-service:latest
@@ -65,7 +83,8 @@ services:
     ports:
       - '8888:8888'
     depends_on:
-      - zipkin
+      zipkin:
+        condition: service_healthy
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
       interval: 10s
@@ -86,6 +105,8 @@ services:
     depends_on:
       config-service:
         condition: service_healthy
+      zipkin:
+        condition: service_healthy
 
   gateway-service:
     image: dh/gateway-service:latest
@@ -104,6 +125,8 @@ services:
     depends_on:
       config-service:
         condition: service_healthy
+      zipkin:
+        condition: service_healthy
       registry-service:
         condition: service_healthy
 
@@ -115,10 +138,14 @@ services:
       - '8082:8082'
     depends_on:
       movies-db:
-        condition: service_started
+        condition: service_healthy
       config-service:
         condition: service_healthy
       registry-service:
+        condition: service_healthy
+      zipkin:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
 
   series-service:
@@ -129,10 +156,14 @@ services:
       - '8083:8083'
     depends_on:
       series-db:
-        condition: service_started
+        condition: service_healthy
       config-service:
         condition: service_healthy
       registry-service:
+        condition: service_healthy
+      zipkin:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
 
   catalog-service:
@@ -143,10 +174,14 @@ services:
       - '8081:8081'
     depends_on:
       catalog-db:
-        condition: service_started
+        condition: service_healthy
       config-service:
         condition: service_healthy
       registry-service:
+        condition: service_healthy
+      zipkin:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
 
 volumes:
