@@ -10,4 +10,6 @@ Conceptos implementados:
 - Distributed tracing (Spring Cloud: Sleuth y Zipkin)
 - Security con proveedor oAuth2 (Spring Cloud Security)
 - Circuit Breaker (Spring Cloud Circuit Breaker - Resilience4j)
+- Comunicación asíncrona (Spring Cloud Stream: RabbitMQ)
+
 
